@@ -4,7 +4,7 @@ namespace Uniza.Namedays.ViewerConsoleApp
 {
     internal class Program
     {
-        public NameDayCalendar NDCalendar { get; set; }
+        public NameDayCalendar? NDCalendar { get; set; }
 
         static void Main(string[] args)
         {
@@ -18,34 +18,37 @@ namespace Uniza.Namedays.ViewerConsoleApp
             Console.WriteLine("5 - Zobrazí kalendár mien v mesiaci");
             Console.WriteLine("6 | Escape - koniec");
             Console.WriteLine("Vaša voľba: ");
-            var choice = Console.ReadLine();
 
-            switch (choice)
+            while (true)
             {
-                case "1":
-                    LoadCalendar();
-                    break;
-                case "2":
-                    //PrintStatistics();
-                    break;
-                case "3":
-                   // SearchNames();
-                    break;
-                case "4":
-                    //SearchNamesByDate();
-                    break;
-                case "5":
-                    //PrintCalendar();
-                    break;
-                case "6":
-                    break;
-                default:
-                    Console.WriteLine("Neplatná voľba");
-                    break;
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        program.NDCalendar = program.LoadCalendar();
+                        break;
+                    case "2":
+                        //PrintStatistics();
+                        break;
+                    case "3":
+                        // SearchNames();
+                        break;
+                    case "4":
+                        //SearchNamesByDate();
+                        break;
+                    case "5":
+                        program.PrintMonthNamedays();
+                        break;
+                    case "6":
+                        break;
+                    default:
+                        Console.WriteLine("Neplatná voľba");
+                        break;
+                }
             }
         }
 
-        private static NameDayCalendar? LoadCalendar()
+        private NameDayCalendar? LoadCalendar()
         {
             string? path;
 
@@ -88,6 +91,52 @@ namespace Uniza.Namedays.ViewerConsoleApp
             // {
             //     Console.WriteLine($"{yaho.DayMonth.Day}.{yaho.DayMonth.Month}. {yaho.Name}");
             // }
+        }
+
+        void PrintMonthNamedays()
+        {
+            // NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month).GroupBy(d => d.DayMonth.Day).ToList().ForEach(n =>
+            // {
+            //     var day = n.First().DayMonth.ToDateTime();
+            //     if (day == DateTime.Today)
+            //     {
+            //         Console.ForegroundColor = ConsoleColor.Green;
+            //     }
+            //     else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+            //     {  
+            //         Console.ForegroundColor = ConsoleColor.Red;
+            //     }
+            //     else
+            //     {
+            //         Console.ForegroundColor = ConsoleColor.White;
+            //     }
+            //     Console.WriteLine($"{n.First().DayMonth.Day}. {n}");
+            // });
+
+            NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month)
+                .GroupBy(d => d.DayMonth.Day)
+                .ToList().ForEach(n =>
+                {
+                    var day = n.First().DayMonth.ToDateTime();
+                    if (day == DateTime.Today)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    // concatenate the names of the namedays with a comma separator
+                    var names = string.Join(", ", n.Select(x => x.Name));
+
+                    Console.WriteLine($"{n.Key}. {names}");
+                });
+
         }
     }
 }
