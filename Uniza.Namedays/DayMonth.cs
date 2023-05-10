@@ -21,5 +21,18 @@
                 return new DateTime(DateTime.Now.Year, Month, Day);
             }
         }
+        
+        public DateTime ToDateTime(int year)
+        {
+            //todo opravit
+            if (DateTime.Now.Year % 4 == 0 && Month == 2 && Day == 29)
+            {
+                return default;
+            }
+            else
+            {
+                return new DateTime(year, Month, Day);
+            }
+        }
     }
 }

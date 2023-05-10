@@ -96,14 +96,16 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         void PrintMonthNamedays()
         {
-            string? choice;
+            ConsoleKeyInfo choice;
+            var month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
             do
             {
-                NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month)
+                NDCalendar.Where(m => m.DayMonth.Month == month)
                     .GroupBy(d => d.DayMonth.Day)
                     .ToList().ForEach(n =>
                     {
-                        var day = n.First().DayMonth.ToDateTime();
+                        var day = n.First().DayMonth.ToDateTime(year);
                         if (day == DateTime.Today)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
@@ -125,11 +127,32 @@ namespace Uniza.Namedays.ViewerConsoleApp
                 Console.WriteLine($"Šípka doľava/doprava - mesiac dozadu/dopredu");
                 Console.WriteLine($"Šípka dole/hore - rok dozadu/dopredu");
                 Console.WriteLine($"Klávesa Home alebo D - aktuálny deň");
-                choice = Console.ReadLine();
-                switch (choice)
+                choice = Console.ReadKey();
+                switch (choice.Key)
                 {
+                    case ConsoleKey.LeftArrow:
+                        month--;
+                        
+                        break;
+                    case ConsoleKey.RightArrow:
+                        month++;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        year++;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        year--;
+                        break;
+                    case ConsoleKey.D:
+                    case ConsoleKey.Home:
+                        year = DateTime.Now.Year;
+                        month = DateTime.Now.Month;
+                        break;
+                    default:
+                        Console.WriteLine("Zly vstup bracho");
+                        break;
                 }
-            } while (choice != "");
+            } while (choice.Key != ConsoleKey.Enter);
         }
     }
 }
