@@ -31,7 +31,7 @@ namespace Uniza.Namedays
 
         public string[] this[DateTime date]
         {
-            get { return Namedays.Where(d => d.DayMonth.ToDateTime().Equals(date)).Select(n => n.Name).ToArray(); }
+            get { return Namedays.Where(d => d.DayMonth.ToDateTime().Equals(date.Date)).Select(n => n.Name).ToArray(); }
         }
 
         public string[] this[int day, int month]

@@ -1,4 +1,5 @@
-﻿using Uniza.Namedays;
+﻿using System.Threading.Channels;
+using Uniza.Namedays;
 
 namespace Uniza.Namedays.ViewerConsoleApp
 {
@@ -95,48 +96,40 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         void PrintMonthNamedays()
         {
-            // NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month).GroupBy(d => d.DayMonth.Day).ToList().ForEach(n =>
-            // {
-            //     var day = n.First().DayMonth.ToDateTime();
-            //     if (day == DateTime.Today)
-            //     {
-            //         Console.ForegroundColor = ConsoleColor.Green;
-            //     }
-            //     else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-            //     {  
-            //         Console.ForegroundColor = ConsoleColor.Red;
-            //     }
-            //     else
-            //     {
-            //         Console.ForegroundColor = ConsoleColor.White;
-            //     }
-            //     Console.WriteLine($"{n.First().DayMonth.Day}. {n}");
-            // });
+            string? choice;
+            do
+            {
+                NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month)
+                    .GroupBy(d => d.DayMonth.Day)
+                    .ToList().ForEach(n =>
+                    {
+                        var day = n.First().DayMonth.ToDateTime();
+                        if (day == DateTime.Today)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
 
-            NDCalendar.Where(m => m.DayMonth.Month == DateTime.Now.Month)
-                .GroupBy(d => d.DayMonth.Day)
-                .ToList().ForEach(n =>
+                        // concatenate the names of the namedays with a comma separator
+                        var names = string.Join(", ", n.Select(x => x.Name));
+
+                        Console.WriteLine($"{n.Key}. {names}");
+                    });
+                Console.WriteLine($"Šípka doľava/doprava - mesiac dozadu/dopredu");
+                Console.WriteLine($"Šípka dole/hore - rok dozadu/dopredu");
+                Console.WriteLine($"Klávesa Home alebo D - aktuálny deň");
+                choice = Console.ReadLine();
+                switch (choice)
                 {
-                    var day = n.First().DayMonth.ToDateTime();
-                    if (day == DateTime.Today)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-
-                    // concatenate the names of the namedays with a comma separator
-                    var names = string.Join(", ", n.Select(x => x.Name));
-
-                    Console.WriteLine($"{n.Key}. {names}");
-                });
-
+                }
+            } while (choice != "");
         }
     }
 }
