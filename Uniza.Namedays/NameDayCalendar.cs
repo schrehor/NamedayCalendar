@@ -122,15 +122,16 @@ namespace Uniza.Namedays
 
         public void Save(FileInfo csvFile)
         {
-            //todo xd
+            //todo test
             // open the CSV file for writing
             using (StreamWriter writer = new StreamWriter(csvFile.FullName))
             {
                 // write the data rows
-                foreach (Nameday nameday in Namedays)
+                Namedays.GroupBy(d => d.DayMonth.Day).ToList().ForEach(x =>
                 {
-                    writer.WriteLine($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name}");
-                }
+                    var names = string.Join(";", x.Select(n => n.Name));
+                    writer.Write($"{x.First().DayMonth.Day}.{x.First().DayMonth.Month}.;{names}");
+                });
             }
         }
     }
