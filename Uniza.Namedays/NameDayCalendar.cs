@@ -99,7 +99,7 @@ namespace Uniza.Namedays
         public void Load(string? path)
         {
             // define the path to the CSV file
-            //string path = @"C:\Users\Stano Rehor\Desktop\namedays-sk.csv";
+            path = @"C:\Users\Stano Rehor\Desktop\namedays-sk.csv";
 
             // open the CSV file for reading
             using (StreamReader reader = new StreamReader(path))
@@ -122,17 +122,19 @@ namespace Uniza.Namedays
 
         public void Save(FileInfo csvFile)
         {
-            //todo test
-            // open the CSV file for writing
-            using (StreamWriter writer = new StreamWriter(csvFile.FullName))
+            using (FileStream fileStream = csvFile.Create())
             {
-                // write the data rows
-                Namedays.GroupBy(d => d.DayMonth.Day).ToList().ForEach(x =>
+                using (StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8))
                 {
-                    var names = string.Join(";", x.Select(n => n.Name));
-                    writer.Write($"{x.First().DayMonth.Day}.{x.First().DayMonth.Month}.;{names}");
-                });
+                    // write the data rows
+                    Namedays.GroupBy(d => new { d.DayMonth.Day, d.DayMonth.Month }).ToList().ForEach(x =>
+                    {
+                        var names = string.Join(";", x.Select(n => n.Name));
+                        writer.WriteLine($"{x.First().DayMonth.Day}.{x.First().DayMonth.Month}.;{names}");
+                    });
+                }
             }
+            
         }
     }
 }

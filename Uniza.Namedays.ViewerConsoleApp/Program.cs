@@ -29,6 +29,8 @@ namespace Uniza.Namedays.ViewerConsoleApp
                         program.NDCalendar = program.LoadCalendar();
                         break;
                     case "2":
+                        FileInfo file = new FileInfo(@"C:\Users\Stano Rehor\Desktop\aa.csv");
+                        program.NDCalendar.Save(file);
                         //PrintStatistics();
                         break;
                     case "3":
@@ -51,31 +53,31 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         private NameDayCalendar? LoadCalendar()
         {
-            string? path;
+            string? path = "";
 
-            do
-            {
-                Console.WriteLine("Zadajte cestu k súboru: ");
-                path = Console.ReadLine();
-
-                if (path == "")
-                {
-                    return null;
-                }
-
-                if (!File.Exists(path))
-                {
-                    Console.WriteLine("Zadaná cesta nie je platná.");
-                }
-                else if (Path.GetExtension(path).ToLower() != ".csv")
-                {
-                    Console.WriteLine("Zadaný súbor nie je vo formáte CSV.");
-                }
-                else
-                {
-                    break;
-                }
-            } while (true);
+            // do
+            // {
+            //     Console.WriteLine("Zadajte cestu k súboru: ");
+            //     path = Console.ReadLine();
+            //
+            //     if (path == "")
+            //     {
+            //         return null;
+            //     }
+            //
+            //     if (!File.Exists(path))
+            //     {
+            //         Console.WriteLine("Zadaná cesta nie je platná.");
+            //     }
+            //     else if (Path.GetExtension(path).ToLower() != ".csv")
+            //     {
+            //         Console.WriteLine("Zadaný súbor nie je vo formáte CSV.");
+            //     }
+            //     else
+            //     {
+            //         break;
+            //     }
+            // } while (true);
 
             NameDayCalendar? calendar = new NameDayCalendar();
             calendar.Load(path);
