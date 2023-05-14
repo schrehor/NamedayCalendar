@@ -98,43 +98,35 @@ namespace Uniza.Namedays
 
         public void Load(string? path)
         {
-            // define the path to the CSV file
+            //todo docasne
             path = @"C:\Users\Stano Rehor\Desktop\namedays-sk.csv";
 
-            // open the CSV file for reading
-            using (StreamReader reader = new StreamReader(path))
+            using StreamReader reader = new StreamReader(path);
+            
+            while (!reader.EndOfStream)
             {
-                // read the remaining lines of the file (the data rows)
-                while (!reader.EndOfStream)
+                string? dataLine = reader.ReadLine();
+                if (dataLine != null)
                 {
-                    string? dataLine = reader.ReadLine();
-                    if (dataLine != null)
-                    {
-                        string[] fields = dataLine.Split(';');
-                        string[] ints = fields[0].Split('.', ' ');
+                    string[] fields = dataLine.Split(';');
+                    string[] ints = fields[0].Split('.', ' ');
 
-                        DayMonth dayMonth = new DayMonth(int.Parse(ints[0]), int.Parse(ints[2]));
-                        Add(dayMonth, fields[1..].Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray());
-                    }
+                    DayMonth dayMonth = new DayMonth(int.Parse(ints[0]), int.Parse(ints[2]));
+                    Add(dayMonth, fields[1..].Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray());
                 }
             }
         }
 
         public void Save(FileInfo csvFile)
         {
-            using (FileStream fileStream = csvFile.Create())
+            using FileStream fileStream = csvFile.Create();
+            using StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8);
+
+            Namedays.GroupBy(d => new { d.DayMonth.Day, d.DayMonth.Month }).ToList().ForEach(x =>
             {
-                using (StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8))
-                {
-                    // write the data rows
-                    Namedays.GroupBy(d => new { d.DayMonth.Day, d.DayMonth.Month }).ToList().ForEach(x =>
-                    {
-                        var names = string.Join(";", x.Select(n => n.Name));
-                        writer.WriteLine($"{x.First().DayMonth.Day}.{x.First().DayMonth.Month}.;{names}");
-                    });
-                }
-            }
-            
+                var names = string.Join(";", x.Select(n => n.Name));
+                writer.WriteLine($"{x.First().DayMonth.Day}.{x.First().DayMonth.Month}.;{names}");
+            });
         }
     }
 }
