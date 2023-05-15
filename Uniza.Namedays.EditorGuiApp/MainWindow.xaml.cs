@@ -26,6 +26,8 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             DateLabel.Content = dateTime.ToString("dd.MM.yyyy");
             NamedaysTextBox.Text = string.Join("\n", NameDayCalendar[dateTime]);
+            Calendar.DisplayDate = dateTime;
+            Calendar.SelectedDate = dateTime;
         }
 
         private void OnClickNew(object sender, RoutedEventArgs routedEventArgs)
