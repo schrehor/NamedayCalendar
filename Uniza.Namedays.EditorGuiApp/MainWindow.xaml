@@ -1,12 +1,69 @@
-﻿<Window x:Class="Uniza.Namedays.EditorGuiApp.MainWindow"
+﻿<Window x:Class="NamedaysApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Uniza.Namedays.EditorGuiApp"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Meniny" Width="800" Height="500">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Name="NewMenuItem"/>
+                <MenuItem Header="Open..." Name="OpenMenuItem"/>
+                <MenuItem Header="Save As..." Name="SaveAsMenuItem"/>
+                <MenuItem Header="Exit" Name="ExitMenuItem"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About..." Name="AboutMenuItem"/>
+            </MenuItem>
+        </Menu>
 
-    </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="513*"/>
+                <ColumnDefinition Width="287*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Editor Column -->
+            <GroupBox Grid.Column="0" Margin="10" Header="Editor">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Filter Grid -->
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Month" Margin="0,10,0,10" />
+                        <ComboBox Name="MonthFilter" Width="100" Margin="0,10,0,10"/>
+                        <Label Content="Regex filter" Margin="0,10,0,10" />
+                        <TextBox Name="NameFilter" Width="100" Margin="0,10,0,10"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                        <Button Content="Clear filter" Name="ClearFilterButton" HorizontalAlignment="Center" Margin="0,10,0,10" Width="120"/>
+                        <Button Content="Add..." Name="AddButton" HorizontalAlignment="Center" Margin="0,10,0,10" Width="120"/>
+                        <Button Content="Edit..." Name="EditButton" HorizontalAlignment="Center" Margin="0,10,0,10" Width="120"/>
+                        <Button Content="Remove" Name="RemoveButton" HorizontalAlignment="Center" Margin="0,10,0,10" Width="120"/>
+                        <Button Content="Show on &#xa;calendar" Name="ShowOnCalendarButton" HorizontalAlignment="Center" Margin="0,10,0,10" Width="120"/>
+                        <Label Name="NamesCount" Margin="0,10,0,10"/>
+                    </StackPanel>
+
+                    <!-- Names TextBlock -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="FilteredNames"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Calendar Column -->
+            <GroupBox Grid.Column="1" Margin="10" Header="Calendar">
+                <StackPanel>
+                    <Button Content="Today" Name="TodayButton" HorizontalAlignment="Center" Height="25" Width="85"/>
+                    <Calendar Name="Calendar"/>
+                    <Label Content="Names" FontWeight="Bold" />
+                    <TextBox TextWrapping="Wrap" Text="TextBox" Width="NaN" Height="80"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
 </Window>

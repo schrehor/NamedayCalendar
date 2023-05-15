@@ -125,7 +125,6 @@ namespace Uniza.Namedays.ViewerConsoleApp
                             Console.ForegroundColor = ConsoleColor.White;
                         }
 
-                        // concatenate the names of the namedays with a comma separator
                         var names = string.Join(", ", n.Select(x => x.Name));
 
                         Console.WriteLine($"{n.Key}. {names}");
