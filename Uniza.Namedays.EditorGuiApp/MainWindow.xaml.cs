@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -24,30 +25,34 @@ namespace Uniza.Namedays.EditorGuiApp
             SetDateAndNames(DateTime.Now);
             Calendar.SelectedDatesChanged += OnClickDayInCalendar;
             FillComboBox();
-            MonthFilter.SelectionChanged += WriteNamesInMonth;
-            NameFilter.TextChanged += WriteNamesWithRegex;
+            MonthFilter.SelectionChanged += WriteNames;
+            NameFilter.TextChanged += WriteNames;
         }
 
-        private void WriteNamesWithRegex(object sender, TextChangedEventArgs e)
+        private void WriteNames(object sender, EventArgs e)
         {
-            
-        }
-
-        private void WriteNamesInMonth(object sender, SelectionChangedEventArgs e)
-        {
-            string selectedSlovakMonthName = (string)MonthFilter.SelectedItem; // replace "comboBox" with your ComboBox's name
-
-            // Get the SlovakMonth enum value and order for the selected month
-            SlovakMonth selectedMonth = SlovakMonthUtility.GetMonthEnum(selectedSlovakMonthName);
-            int selectedMonthOrder = SlovakMonthUtility.GetMonthOrder(selectedSlovakMonthName);
-
-            // Get the namedays for the selected month
-            IEnumerable<Nameday> namedaysInSelectedMonth = NameDayCalendar.GetNamedays(selectedMonthOrder);
-
-            // Print out all namedays in the selected month
-            foreach (Nameday nameday in namedaysInSelectedMonth)
+            if (sender is ComboBox)
             {
-                FilteredNames.Text += nameday.Name + "\n";
+                string selectedSlovakMonthName = (string)MonthFilter.SelectedItem;
+
+                SlovakMonth selectedMonth = SlovakMonthUtility.GetMonthEnum(selectedSlovakMonthName);
+                int selectedMonthOrder = SlovakMonthUtility.GetMonthOrder(selectedSlovakMonthName);
+
+                IEnumerable<Nameday> namedaysInSelectedMonth = NameDayCalendar.GetNamedays(selectedMonthOrder);
+
+                foreach (Nameday nameday in namedaysInSelectedMonth)
+                {
+                    FilteredNames.Text += nameday.Name + "\n";
+                }
+            } 
+            else if (sender is TextBox)
+            {
+                string name = NameFilter.Text;
+                IEnumerable<Nameday> namedaysWithName = NameDayCalendar.GetNamedays(name);
+                foreach (Nameday nameday in namedaysWithName)
+                {
+                    FilteredNames.Text += nameday.Name + "\n";
+                }
             }
         }
 
