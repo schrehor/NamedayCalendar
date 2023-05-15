@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.Win32;
 
@@ -18,6 +19,7 @@ namespace Uniza.Namedays.EditorGuiApp
             InitializeComponent();
             NameDayCalendar.Load(@"C:\Users\Stano Rehor\Desktop\namedays-sk.csv");
             SetDateAndNames(DateTime.Now);
+            Calendar.SelectedDatesChanged += OnClickDayInCalendar;
         }
 
         private void SetDateAndNames(DateTime dateTime)
@@ -91,6 +93,11 @@ namespace Uniza.Namedays.EditorGuiApp
         private void TodayButton_Click(object sender, RoutedEventArgs e)
         {
             SetDateAndNames(DateTime.Now);
+        }
+
+        private void OnClickDayInCalendar(object? sender, SelectionChangedEventArgs e)
+        {
+            SetDateAndNames(Calendar.SelectedDate ?? DateTime.Now);
         }
     }
 }

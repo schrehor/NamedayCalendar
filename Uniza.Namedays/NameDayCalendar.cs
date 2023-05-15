@@ -21,17 +21,17 @@ namespace Uniza.Namedays
 
         public string[] this[DayMonth dayMonth]
         {
-            get { return Namedays.FindAll(d => d.DayMonth == dayMonth).Select(n => n.Name).ToArray(); }
+            get { return Namedays.Where(d => d.DayMonth == dayMonth).Select(n => n.Name).ToArray(); }
         }
 
         public string[] this[DateOnly date]
         {
-            get { return Namedays.FindAll(n => n.DayMonth.ToDateTime().Equals(DateTime.Parse(date.ToString()))).Select(n => n.Name).ToArray(); }
+            get { return Namedays.Where(n => n.DayMonth.Month == date.Month && n.DayMonth.Day == date.Day).Select(n => n.Name).ToArray(); }
         }
 
         public string[] this[DateTime date]
         {
-            get { return Namedays.Where(d => d.DayMonth.ToDateTime().Equals(date.Date)).Select(n => n.Name).ToArray(); }
+            get { return Namedays.Where(d => d.DayMonth.Month == date.Month && d.DayMonth.Day == date.Day).Select(n => n.Name).ToArray(); }
         }
 
         public string[] this[int day, int month]
