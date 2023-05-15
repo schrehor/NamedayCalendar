@@ -12,7 +12,7 @@
                 <MenuItem Header="Exit" Name="ExitMenuItem" Click="OnClickExit"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About..." Name="AboutMenuItem"/>
+                <MenuItem Header="About..." Name="AboutMenuItem" Click="OnClickAbout"/>
             </MenuItem>
         </Menu>
 
