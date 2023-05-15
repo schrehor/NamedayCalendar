@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Win32;
 
 namespace Uniza.Namedays.EditorGuiApp
@@ -20,7 +8,7 @@ namespace Uniza.Namedays.EditorGuiApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public NameDayCalendar NameDayCalendar { get; set; } = new NameDayCalendar();
         public MainWindow()
@@ -29,7 +17,7 @@ namespace Uniza.Namedays.EditorGuiApp
             NameDayCalendar.Load(@"C:\Users\Stano Rehor\Desktop\namedays-sk.csv");
         }
 
-        void OnClickNew(object sender, RoutedEventArgs routedEventArgs)
+        private void OnClickNew(object sender, RoutedEventArgs routedEventArgs)
         {
             if (NameDayCalendar.GetNamedays().Any())
             {
@@ -41,7 +29,7 @@ namespace Uniza.Namedays.EditorGuiApp
             }
         }
 
-        void OnClickOpen(object sender, RoutedEventArgs routedEventArgs)
+        private void OnClickOpen(object sender, RoutedEventArgs routedEventArgs)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -58,7 +46,7 @@ namespace Uniza.Namedays.EditorGuiApp
             }
         }
 
-        void OnClickSave(object sender, RoutedEventArgs routedEventArgs)
+        private void OnClickSave(object sender, RoutedEventArgs routedEventArgs)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -76,7 +64,7 @@ namespace Uniza.Namedays.EditorGuiApp
             }
         }
 
-        void OnClickExit(object sender, RoutedEventArgs routedEventArgs)
+        private void OnClickExit(object sender, RoutedEventArgs routedEventArgs)
         {
             Close();
         }

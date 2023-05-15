@@ -8,6 +8,7 @@
                 <MenuItem Header="New" Name="NewMenuItem" Click="OnClickNew"/>
                 <MenuItem Header="Open..." Name="OpenMenuItem" Click="OnClickOpen"/>
                 <MenuItem Header="Save As..." Name="SaveAsMenuItem" Click="OnClickSave"/>
+                <Separator />
                 <MenuItem Header="Exit" Name="ExitMenuItem" Click="OnClickExit"/>
             </MenuItem>
             <MenuItem Header="Help">
