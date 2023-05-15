@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -105,18 +107,17 @@ namespace Uniza.Namedays.EditorGuiApp
 
         private void FillComboBox()
         {
-            MonthFilter.Items.Add("Január");
-            MonthFilter.Items.Add("Február");
-            MonthFilter.Items.Add("Marec");
-            MonthFilter.Items.Add("Apríl");
-            MonthFilter.Items.Add("Máj");
-            MonthFilter.Items.Add("Jún");
-            MonthFilter.Items.Add("Júl");
-            MonthFilter.Items.Add("August");
-            MonthFilter.Items.Add("September");
-            MonthFilter.Items.Add("Oktobér");
-            MonthFilter.Items.Add("November");
-            MonthFilter.Items.Add("December");
+            foreach (SlovakMonth month in Enum.GetValues(typeof(SlovakMonth)))
+            {
+                string slovakName = SlovakMonthUtility.GetSlovakName(month);
+                MonthFilter.Items.Add(slovakName);
+            }
+        }
+
+        private void ClearFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            MonthFilter.SelectedIndex = -1;
+            NameFilter.Text = "";
         }
     }
 }
