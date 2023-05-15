@@ -98,6 +98,7 @@ namespace Uniza.Namedays
 
         public void Load(string? path)
         {
+            Clear();
             //todo docasne
             path = @"C:\Users\Stano Rehor\Desktop\namedays-sk.csv";
 
