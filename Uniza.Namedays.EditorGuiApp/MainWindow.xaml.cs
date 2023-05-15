@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,31 @@ namespace Uniza.Namedays.EditorGuiApp
             SetDateAndNames(DateTime.Now);
             Calendar.SelectedDatesChanged += OnClickDayInCalendar;
             FillComboBox();
+            MonthFilter.SelectionChanged += WriteNamesInMonth;
+            NameFilter.TextChanged += WriteNamesWithRegex;
+        }
+
+        private void WriteNamesWithRegex(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void WriteNamesInMonth(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedSlovakMonthName = (string)MonthFilter.SelectedItem; // replace "comboBox" with your ComboBox's name
+
+            // Get the SlovakMonth enum value and order for the selected month
+            SlovakMonth selectedMonth = SlovakMonthUtility.GetMonthEnum(selectedSlovakMonthName);
+            int selectedMonthOrder = SlovakMonthUtility.GetMonthOrder(selectedSlovakMonthName);
+
+            // Get the namedays for the selected month
+            IEnumerable<Nameday> namedaysInSelectedMonth = NameDayCalendar.GetNamedays(selectedMonthOrder);
+
+            // Print out all namedays in the selected month
+            foreach (Nameday nameday in namedaysInSelectedMonth)
+            {
+                FilteredNames.Text += nameday.Name + "\n";
+            }
         }
 
         private void SetDateAndNames(DateTime dateTime)

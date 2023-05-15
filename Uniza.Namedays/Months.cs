@@ -69,13 +69,19 @@ public static class SlovakMonthUtility
         return _monthDictReverse[month];
     }
 
-    public static int? GetMonthOrder(string slovakName)
+    public static int GetMonthOrder(string slovakName)
     {
         SlovakMonth selectedMonth = _monthDict[slovakName];
 
         var info = typeof(SlovakMonth).GetMember(selectedMonth.ToString());
         var attributes = info[0].GetCustomAttribute<DisplayAttribute>();
 
-        return attributes?.GetOrder();
+
+        if (attributes != null) 
+            return (int)attributes.GetOrder();
+        else
+        {
+            return 0;
+        }
     }
 }
