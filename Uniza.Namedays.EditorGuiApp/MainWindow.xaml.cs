@@ -20,6 +20,7 @@ namespace Uniza.Namedays.EditorGuiApp
             NameDayCalendar.Load(@"C:\Users\Stano Rehor\Desktop\namedays-sk.csv");
             SetDateAndNames(DateTime.Now);
             Calendar.SelectedDatesChanged += OnClickDayInCalendar;
+            FillComboBox();
         }
 
         private void SetDateAndNames(DateTime dateTime)
@@ -100,6 +101,22 @@ namespace Uniza.Namedays.EditorGuiApp
         private void OnClickDayInCalendar(object? sender, SelectionChangedEventArgs e)
         {
             SetDateAndNames(Calendar.SelectedDate ?? DateTime.Now);
+        }
+
+        private void FillComboBox()
+        {
+            MonthFilter.Items.Add("Január");
+            MonthFilter.Items.Add("Február");
+            MonthFilter.Items.Add("Marec");
+            MonthFilter.Items.Add("Apríl");
+            MonthFilter.Items.Add("Máj");
+            MonthFilter.Items.Add("Jún");
+            MonthFilter.Items.Add("Júl");
+            MonthFilter.Items.Add("August");
+            MonthFilter.Items.Add("September");
+            MonthFilter.Items.Add("Oktobér");
+            MonthFilter.Items.Add("November");
+            MonthFilter.Items.Add("December");
         }
     }
 }
