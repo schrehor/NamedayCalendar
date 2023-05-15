@@ -31,6 +31,7 @@ namespace Uniza.Namedays.EditorGuiApp
 
         private void WriteNames(object sender, EventArgs e)
         {
+            FilteredNames.Text = "";
             if (sender is ComboBox)
             {
                 string selectedSlovakMonthName = (string)MonthFilter.SelectedItem;
