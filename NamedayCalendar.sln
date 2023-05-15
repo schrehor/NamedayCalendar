@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uniza.Namedays", "Uniza.Nam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uniza.Namedays.ViewerConsoleApp", "Uniza.Namedays.ViewerConsoleApp\Uniza.Namedays.ViewerConsoleApp.csproj", "{54F050D6-F553-40D8-AB07-C624CE8B8807}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uniza.Namedays.EditorGuiApp", "Uniza.Namedays.EditorGuiApp\Uniza.Namedays.EditorGuiApp.csproj", "{1E9E8351-503A-4B40-9D46-C154DF9FEA35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{54F050D6-F553-40D8-AB07-C624CE8B8807}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F050D6-F553-40D8-AB07-C624CE8B8807}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F050D6-F553-40D8-AB07-C624CE8B8807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E9E8351-503A-4B40-9D46-C154DF9FEA35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E9E8351-503A-4B40-9D46-C154DF9FEA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E9E8351-503A-4B40-9D46-C154DF9FEA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E9E8351-503A-4B40-9D46-C154DF9FEA35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

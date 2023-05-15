@@ -10,31 +10,30 @@ namespace Uniza.Namedays.ViewerConsoleApp
         static void Main(string[] args)
         {
             Program program = new Program();
-
-            Console.WriteLine("Menu");
-            Console.WriteLine("1 - Načítať kalendár");
-            Console.WriteLine("2 - Zobraziť štatistiku");
-            Console.WriteLine("3 - Vyhľadá mená");
-            Console.WriteLine("4 - Vyhľadá mená podľa dátumu");
-            Console.WriteLine("5 - Zobrazí kalendár mien v mesiaci");
-            Console.WriteLine("6 | Escape - koniec");
-            Console.WriteLine("Vaša voľba: ");
-
+            
             while (true)
             {
+                Console.WriteLine("Menu");
+                Console.WriteLine("1 - Načítať kalendár");
+                Console.WriteLine("2 - Zobraziť štatistiku");
+                Console.WriteLine("3 - Vyhľadá mená");
+                Console.WriteLine("4 - Vyhľadá mená podľa dátumu");
+                Console.WriteLine("5 - Zobrazí kalendár mien v mesiaci");
+                Console.WriteLine("6 | Escape - koniec");
+                Console.WriteLine("Vaša voľba: ");
+
                 var choice = Console.ReadLine();
+
                 switch (choice)
                 {
                     case "1":
                         program.NDCalendar = program.LoadCalendar();
                         break;
                     case "2":
-                        FileInfo file = new FileInfo(@"C:\Users\Stano Rehor\Desktop\aa.csv");
-                        program.NDCalendar.Save(file);
-                        //PrintStatistics();
+                        program.PrintStatistics();
                         break;
                     case "3":
-                        // SearchNames();
+                        //SearchNames();
                         break;
                     case "4":
                         //SearchNamesByDate();
@@ -49,6 +48,11 @@ namespace Uniza.Namedays.ViewerConsoleApp
                         break;
                 }
             }
+        }
+
+        private void PrintStatistics()
+        {
+            
         }
 
         private NameDayCalendar? LoadCalendar()
