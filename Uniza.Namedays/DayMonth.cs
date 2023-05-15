@@ -12,7 +12,7 @@
         public DateTime ToDateTime()
         {
             //todo opravit
-            if (DateTime.Now.Year % 4 == 0 && Month == 2 && Day == 29)
+            if (DateTime.Now.Year % 4 != 0 && Month == 2 && Day == 29)
             {
                 return default;
             }
@@ -25,7 +25,7 @@
         public DateTime ToDateTime(int year)
         {
             //todo opravit
-            if (DateTime.Now.Year % 4 == 0 && Month == 2 && Day == 29)
+            if (DateTime.Now.Year % 4 != 0 && Month == 2 && Day == 29)
             {
                 return default;
             }

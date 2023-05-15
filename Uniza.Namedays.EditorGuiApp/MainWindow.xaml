@@ -59,10 +59,10 @@
             <!-- Calendar Column -->
             <GroupBox Grid.Column="1" Margin="10" Header="Calendar">
                 <StackPanel>
-                    <Button Content="Today" Name="TodayButton" HorizontalAlignment="Center" Height="25" Width="85"/>
+                    <Button Content="Today" Name="TodayButton" HorizontalAlignment="Center" Height="25" Width="85" Click="TodayButton_Click"/>
                     <Calendar Name="Calendar"/>
-                    <Label Content="Names" FontWeight="Bold" />
-                    <TextBox TextWrapping="Wrap" Text="TextBox" Width="NaN" Height="80"/>
+                    <Label Content="Names" FontWeight="Bold" Name="DateLabel"/>
+                    <TextBox TextWrapping="Wrap" Text="TextBox" Width="NaN" Height="80" Name="NamedaysTextBox"/>
                 </StackPanel>
             </GroupBox>
         </Grid>

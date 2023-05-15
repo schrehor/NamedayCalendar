@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -16,6 +17,13 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             InitializeComponent();
             NameDayCalendar.Load(@"C:\Users\Stano Rehor\Desktop\namedays-sk.csv");
+            SetDateAndNames(DateTime.Now);
+        }
+
+        private void SetDateAndNames(DateTime dateTime)
+        {
+            DateLabel.Content = dateTime.ToString("dd.MM.yyyy");
+            NamedaysTextBox.Text = string.Join("\n", NameDayCalendar[dateTime]);
         }
 
         private void OnClickNew(object sender, RoutedEventArgs routedEventArgs)
@@ -75,9 +83,14 @@ namespace Uniza.Namedays.EditorGuiApp
             //todo formatovanie textu
             string title = "About";
             string message = "Namedays\nVersion 1.0\nCopyright free for all\n" +
-                             "This application was created by Stanislav Rehor as a project for the subject \"Programming in C#\" at the University of Žilina.";
+                             "This application was created by Stanislav Rehor as a project for the subject \"jazyk C# a .NET\" at the University of Žilina.";
 
             MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void TodayButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetDateAndNames(DateTime.Now);
         }
     }
 }
