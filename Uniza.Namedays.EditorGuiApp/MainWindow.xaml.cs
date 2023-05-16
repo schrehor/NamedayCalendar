@@ -28,6 +28,15 @@ namespace Uniza.Namedays.EditorGuiApp
             FillComboBox();
             MonthFilter.SelectionChanged += WriteNames;
             NameFilter.TextChanged += WriteNames;
+            DisableButtons();
+        }
+
+        private void DisableButtons()
+        {
+            AddButton.IsEnabled = false;
+            EditButton.IsEnabled = false;
+            RemoveButton.IsEnabled = false;
+            ShowOnCalendarButton.IsEnabled = false;
         }
 
         private void WriteNames(object sender, EventArgs e)
