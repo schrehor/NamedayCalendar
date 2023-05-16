@@ -29,6 +29,12 @@ namespace Uniza.Namedays.EditorGuiApp
             MonthFilter.SelectionChanged += WriteNames;
             NameFilter.TextChanged += WriteNames;
             DisableButtons();
+            FilteredNames.SelectionChanged += OnClickNameInFilteredNames;
+        }
+
+        private void OnClickNameInFilteredNames(object sender, SelectionChangedEventArgs e)
+        {
+            EnableButtons();
         }
 
         private void DisableButtons()
@@ -61,7 +67,26 @@ namespace Uniza.Namedays.EditorGuiApp
             {
                 if (!nameday.Name.Equals("-"))
                 {
-                    FilteredNames.Items.Add($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name} \n");
+                    FilteredNames.Items.Add($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name}");
+                }
+            }
+        }
+        
+        private void WriteNames()
+        {
+            FilteredNames.Items.Clear();
+
+            int selectedMonth = MonthFilter.SelectedIndex + 1;
+            string regexPattern = NameFilter.Text;
+
+            IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedMonth)
+                .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
+
+            foreach (Nameday nameday in filteredNamedays)
+            {
+                if (!nameday.Name.Equals("-"))
+                {
+                    FilteredNames.Items.Add($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name}");
                 }
             }
         }
@@ -159,6 +184,34 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             MonthFilter.SelectedIndex = -1;
             NameFilter.Text = "";
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar);
+            addNamedayWindow.ShowDialog();
+            WriteNames();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedNameday = FilteredNames.SelectedItem.ToString();
+            if (selectedNameday != null)
+            {
+                string[] parts = selectedNameday.Split('.');
+                int day = int.Parse(parts[0]);
+                int month = int.Parse(parts[1]);
+                string name = parts[2].Trim();
+
+                NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar, new Nameday(name, new DayMonth(day, month)));
+                addNamedayWindow.ShowDialog();
+                WriteNames();
+            }
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

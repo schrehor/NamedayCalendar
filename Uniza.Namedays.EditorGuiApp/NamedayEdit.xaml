@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Uniza.Namedays.EditorGuiApp"
         mc:Ignorable="d"
-        Title="NamedayEdit" Height="213" Width="380">
+        Title="NamedayEdit" Height="350" Width="480">
     <Grid>
-        <Label Content="Name:" Margin="20,28,264,134"/>
-        <Label Content="Date:" Margin="20,81,264,81"/>
-        <TextBox TextWrapping="Wrap" Text="" Margin="127,34,37,139" Name="NameBox"/>
-        <DatePicker Margin="127,86,37,85" Name="DatePicker"/>
-        <Button Content="OK" Margin="68,139,196,30" Name="OkButton"/>
-        <Button Content="Cancel" Margin="227,139,37,30" Name="CancelButton"/>
+        <Label Content="Name:" Margin="20,28,264,170" Height="30" Width="50"/>
+        <Label Content="Date:" Margin="20,81,264,117" Height="30" Width="50"/>
+        <TextBox TextWrapping="Wrap" Text="" Margin="127,34,37,170" Name="NameBox" Height="30" Width="200"/>
+        <DatePicker Margin="127,86,37,117" Name="DatePicker" Height="30" Width="200"/>
+        <Button Content="OK" Margin="85,172,196,30" Name="OkButton" RenderTransformOrigin="0.131,-0.186" Height="30" Width="100" Click="OkButton_Click"/>
+        <Button Content="Cancel" Margin="235,172,37,30" Name="CancelButton" Height="30" Width="100" Click="CancelButton_Click"/>
     </Grid>
 </Window>

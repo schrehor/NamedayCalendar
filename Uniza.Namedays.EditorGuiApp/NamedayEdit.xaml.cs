@@ -19,9 +19,40 @@ namespace Uniza.Namedays.EditorGuiApp
     /// </summary>
     public partial class NamedayEdit : Window
     {
-        public NamedayEdit()
+        public Nameday SingleNameday { get; set; }
+        public NameDayCalendar NameDayCalendar { get; set; }
+
+        public NamedayEdit(NameDayCalendar nameDayCalendar, Nameday singleNameday = default)
         {
             InitializeComponent();
+            SingleNameday = singleNameday;
+            NameDayCalendar = nameDayCalendar;
+            DatePicker.SelectedDate = singleNameday == default ? DateTime.Now : singleNameday.DayMonth.ToDateTime();
+            NameBox.Text = singleNameday == default ? "" : singleNameday.Name;
+        }
+
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            var name = NameBox.Text;
+            var date = DatePicker.SelectedDate;
+
+            if (SingleNameday.Equals(default))
+            {
+                if (date != null)
+                    NameDayCalendar.Namedays.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
+            }
+            else
+            {
+                NameDayCalendar.Namedays.Remove(SingleNameday);
+                if (date != null)
+                    NameDayCalendar.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
+            }
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
