@@ -47,6 +47,9 @@ namespace Uniza.Namedays.EditorGuiApp
                 if (date != null)
                     NameDayCalendar.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
             }
+
+            NameDayCalendar.Namedays = NameDayCalendar.OrderBy(n => n.DayMonth.Day).ThenBy(n => n.DayMonth.Month).ToList();
+
             Close();
         }
 
