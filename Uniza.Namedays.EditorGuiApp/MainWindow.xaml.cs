@@ -18,6 +18,9 @@ namespace Uniza.Namedays.EditorGuiApp
     public partial class MainWindow
     {
         public NameDayCalendar NameDayCalendar { get; set; } = new NameDayCalendar();
+
+        public List<NameDayCalendar> FilteredList { get; set; } = new List<NameDayCalendar>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,28 +35,15 @@ namespace Uniza.Namedays.EditorGuiApp
         private void WriteNames(object sender, EventArgs e)
         {
             FilteredNames.Text = "";
-            if (sender is ComboBox)
+            int selectedSlovakMonthName = MonthFilter.SelectedIndex + 1;
+            string regexPattern = NameFilter.Text;
+
+            IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedSlovakMonthName)
+                .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
+
+            foreach (Nameday nameday in filteredNamedays)
             {
-                string selectedSlovakMonthName = (string)MonthFilter.SelectedItem;
-
-                SlovakMonth selectedMonth = SlovakMonthUtility.GetMonthEnum(selectedSlovakMonthName);
-                int selectedMonthOrder = SlovakMonthUtility.GetMonthOrder(selectedSlovakMonthName);
-
-                IEnumerable<Nameday> namedaysInSelectedMonth = NameDayCalendar.GetNamedays(selectedMonthOrder);
-
-                foreach (Nameday nameday in namedaysInSelectedMonth)
-                {
-                    FilteredNames.Text += nameday.Name + "\n";
-                }
-            } 
-            else if (sender is TextBox)
-            {
-                string name = NameFilter.Text;
-                IEnumerable<Nameday> namedaysWithName = NameDayCalendar.GetNamedays(name);
-                foreach (Nameday nameday in namedaysWithName)
-                {
-                    FilteredNames.Text += nameday.Name + "\n";
-                }
+                FilteredNames.Text += nameday.Name + "\n";
             }
         }
 
