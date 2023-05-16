@@ -36,19 +36,15 @@ namespace Uniza.Namedays.EditorGuiApp
             var name = NameBox.Text;
             var date = DatePicker.SelectedDate;
 
-            if (SingleNameday.Equals(default))
-            {
-                if (date != null)
-                    NameDayCalendar.Namedays.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
-            }
-            else
+            if (!SingleNameday.Equals(default))
             {
                 NameDayCalendar.Namedays.Remove(SingleNameday);
-                if (date != null)
-                    NameDayCalendar.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
             }
+            if (date != null)
+                NameDayCalendar.Add(new Nameday(name, new DayMonth(date.Value.Day, date.Value.Month)));
 
-            NameDayCalendar.Namedays = NameDayCalendar.OrderBy(n => n.DayMonth.Day).ThenBy(n => n.DayMonth.Month).ToList();
+            NameDayCalendar.Namedays = NameDayCalendar.OrderBy(n => n.DayMonth.Day).ThenBy(n => n.DayMonth.Month)
+                .ThenBy(n => n.Name).ToList();
 
             Close();
         }

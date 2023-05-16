@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace Uniza.Namedays.EditorGuiApp
@@ -54,25 +55,6 @@ namespace Uniza.Namedays.EditorGuiApp
         }
 
         private void WriteNames(object sender, EventArgs e)
-        {
-            FilteredNames.Items.Clear();
-
-            int selectedMonth = MonthFilter.SelectedIndex + 1;
-            string regexPattern = NameFilter.Text;
-
-            IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedMonth)
-                .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
-
-            foreach (Nameday nameday in filteredNamedays)
-            {
-                if (!nameday.Name.Equals("-"))
-                {
-                    FilteredNames.Items.Add($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name}");
-                }
-            }
-        }
-        
-        private void WriteNames()
         {
             FilteredNames.Items.Clear();
 
@@ -190,7 +172,7 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar);
             addNamedayWindow.ShowDialog();
-            WriteNames();
+            WriteNames(sender, e);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -205,13 +187,41 @@ namespace Uniza.Namedays.EditorGuiApp
 
                 NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar, new Nameday(name, new DayMonth(day, month)));
                 addNamedayWindow.ShowDialog();
-                WriteNames();
+                WriteNames(sender, e);
             }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
+            var selectedNameday = FilteredNames.SelectedItem.ToString();
+            if (selectedNameday != null)
+            {
+                string[] parts = selectedNameday.Split('.');
+                int day = int.Parse(parts[0]);
+                int month = int.Parse(parts[1]);
+                string name = parts[2].Trim();
 
+                MessageBoxResult answer = MessageBox.Show($"Do you chces vymazat zaznam \"{FilteredNames.SelectedItem}\" z kalendara?", "Deletni osobu",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (answer == MessageBoxResult.Yes)
+                {
+                    NameDayCalendar.Remove(name);
+                }
+                WriteNames(sender, e);
+            }
+        }
+
+        private void ShowOnCalendarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedNameday = FilteredNames.SelectedItem.ToString();
+            if (selectedNameday != null)
+            {
+                string[] parts = selectedNameday.Split('.');
+                int day = int.Parse(parts[0]);
+                int month = int.Parse(parts[1]);
+
+                SetDateAndNames(new DateTime(DateTime.Now.Year, month, day));
+            }
         }
     }
 }
