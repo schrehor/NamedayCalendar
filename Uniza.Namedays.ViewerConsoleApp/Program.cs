@@ -9,6 +9,11 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         static void Main(string[] args)
         {
+            if (args.Length > 0)
+            {
+                string csvFilePath = args[0];
+            }
+
             Program program = new Program();
             
             while (true)
