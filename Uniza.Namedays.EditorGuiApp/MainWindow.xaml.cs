@@ -19,8 +19,6 @@ namespace Uniza.Namedays.EditorGuiApp
     {
         public NameDayCalendar NameDayCalendar { get; set; } = new NameDayCalendar();
 
-        public List<NameDayCalendar> FilteredList { get; set; } = new List<NameDayCalendar>();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -35,15 +33,18 @@ namespace Uniza.Namedays.EditorGuiApp
         private void WriteNames(object sender, EventArgs e)
         {
             FilteredNames.Text = "";
-            int selectedSlovakMonthName = MonthFilter.SelectedIndex + 1;
+            int selectedMonth = MonthFilter.SelectedIndex + 1;
             string regexPattern = NameFilter.Text;
 
-            IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedSlovakMonthName)
+            IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedMonth)
                 .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
 
             foreach (Nameday nameday in filteredNamedays)
             {
-                FilteredNames.Text += nameday.Name + "\n";
+                if (!nameday.Name.Equals("-"))
+                {
+                    FilteredNames.Text += $"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name} \n";
+                }
             }
         }
 
