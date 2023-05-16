@@ -5,7 +5,7 @@
         public string Name { get; init; } = Name;
         public DayMonth DayMonth { get; init; } = DayMonth;
 
-        public Nameday() : this(null, new DayMonth())
+        public Nameday() : this("", new DayMonth())
         {
         }
     }
