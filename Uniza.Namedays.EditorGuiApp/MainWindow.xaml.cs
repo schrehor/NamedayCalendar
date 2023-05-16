@@ -27,8 +27,8 @@ namespace Uniza.Namedays.EditorGuiApp
             SetDateAndNames(DateTime.Now);
             Calendar.SelectedDatesChanged += OnClickDayInCalendar;
             FillComboBox();
-            MonthFilter.SelectionChanged += WriteNames;
-            NameFilter.TextChanged += WriteNames;
+            MonthFilter.SelectionChanged += RefreshNames;
+            NameFilter.TextChanged += RefreshNames;
             DisableButtons();
             FilteredNames.SelectionChanged += OnClickNameInFilteredNames;
         }
@@ -54,7 +54,7 @@ namespace Uniza.Namedays.EditorGuiApp
             ShowOnCalendarButton.IsEnabled = true;
         }
 
-        private void WriteNames(object sender, EventArgs e)
+        private void RefreshNames(object sender, EventArgs e)
         {
             FilteredNames.Items.Clear();
 
@@ -94,6 +94,9 @@ namespace Uniza.Namedays.EditorGuiApp
                     NameDayCalendar.Clear();
                 }
             }
+
+            RefreshNames(sender, routedEventArgs);
+            SetDateAndNames(DateTime.Now);
         }
 
         private void OnClickOpen(object sender, RoutedEventArgs routedEventArgs)
@@ -111,6 +114,9 @@ namespace Uniza.Namedays.EditorGuiApp
                 string filePath = openFileDialog.FileName;
                 NameDayCalendar.Load(filePath);
             }
+
+            RefreshNames(sender, routedEventArgs);
+            SetDateAndNames(DateTime.Now);
         }
 
         private void OnClickSave(object sender, RoutedEventArgs routedEventArgs)
@@ -175,7 +181,7 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar);
             addNamedayWindow.ShowDialog();
-            WriteNames(sender, e);
+            RefreshNames(sender, e);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -190,7 +196,7 @@ namespace Uniza.Namedays.EditorGuiApp
 
                 NamedayEdit addNamedayWindow = new NamedayEdit(NameDayCalendar, new Nameday(name, new DayMonth(day, month)));
                 addNamedayWindow.ShowDialog();
-                WriteNames(sender, e);
+                RefreshNames(sender, e);
             }
         }
 
@@ -210,7 +216,7 @@ namespace Uniza.Namedays.EditorGuiApp
                 {
                     NameDayCalendar.Remove(name);
                 }
-                WriteNames(sender, e);
+                RefreshNames(sender, e);
             }
         }
 
