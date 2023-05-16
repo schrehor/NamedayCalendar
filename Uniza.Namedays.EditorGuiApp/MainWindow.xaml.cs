@@ -64,7 +64,10 @@ namespace Uniza.Namedays.EditorGuiApp
             IEnumerable<Nameday> filteredNamedays = NameDayCalendar.GetNamedays(selectedMonth)
                 .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
 
-            foreach (Nameday nameday in filteredNamedays)
+            var enumerable = filteredNamedays.ToList();
+            NamesCount.Content = $"{enumerable.ToList().Count()} / {NameDayCalendar.GetNamedays().Count()}";
+
+            foreach (Nameday nameday in enumerable)
             {
                 if (!nameday.Name.Equals("-"))
                 {
