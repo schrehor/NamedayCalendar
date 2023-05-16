@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Xml.Linq;
 using Microsoft.Win32;
 
 namespace Uniza.Namedays.EditorGuiApp
@@ -206,8 +201,6 @@ namespace Uniza.Namedays.EditorGuiApp
             if (selectedNameday != null)
             {
                 string[] parts = selectedNameday.Split('.');
-                int day = int.Parse(parts[0]);
-                int month = int.Parse(parts[1]);
                 string name = parts[2].Trim();
 
                 MessageBoxResult answer = MessageBox.Show($"Do you chces vymazat zaznam \"{FilteredNames.SelectedItem}\" z kalendara?", "Deletni osobu",
