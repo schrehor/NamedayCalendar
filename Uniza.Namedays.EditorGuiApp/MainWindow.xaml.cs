@@ -39,6 +39,14 @@ namespace Uniza.Namedays.EditorGuiApp
             ShowOnCalendarButton.IsEnabled = false;
         }
 
+        private void EnableButtons()
+        {
+            AddButton.IsEnabled = true;
+            EditButton.IsEnabled = true;
+            RemoveButton.IsEnabled = true;
+            ShowOnCalendarButton.IsEnabled = true;
+        }
+
         private void WriteNames(object sender, EventArgs e)
         {
             FilteredNames.Items.Clear();
