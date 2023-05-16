@@ -18,7 +18,7 @@ namespace Uniza.Namedays.EditorGuiApp
         public MainWindow()
         {
             InitializeComponent();
-            NameDayCalendar.Load(@"C:\Users\Stano Rehor\Desktop\namedays-sk.csv");
+            NameDayCalendar.Load(@"..\..\..\..\namedays-sk.csv");
             SetDateAndNames(DateTime.Now);
             Calendar.SelectedDatesChanged += OnClickDayInCalendar;
             FillComboBox();
@@ -60,7 +60,7 @@ namespace Uniza.Namedays.EditorGuiApp
                 .Where(nameday => NameDayCalendar.GetNamedays(regexPattern).Contains(nameday));
 
             var enumerable = filteredNamedays.ToList();
-            NamesCount.Content = $"{enumerable.ToList().Count()} / {NameDayCalendar.GetNamedays().Count()}";
+            NamesCount.Content = $"{enumerable.ToList().Count()} / {NameDayCalendar.NameCount}";
 
             foreach (Nameday nameday in enumerable)
             {

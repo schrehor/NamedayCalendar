@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Uniza.Namedays
 {
     public record NameDayCalendar : IEnumerable<Nameday>
     {
-        public int NameCount { get; }
-        public int DayCount { get; }
+        public int NameCount { get; set; }
+        public int DayCount { get; set; }
         public List<Nameday> Namedays { get; set; } = new List<Nameday>();
         
         public DayMonth? this[string name]
@@ -96,25 +92,32 @@ namespace Uniza.Namedays
             Namedays.Clear();
         }
 
-        public void Load(string? path)
+        public void Load(string path)
         {
+            if (path == null) throw new ArgumentNullException(nameof(path));
+
             Clear();
             //todo docasne
-            path = @"C:\Users\Stano Rehor\Desktop\namedays-sk.csv";
-
+            path = @"..\..\..\..\namedays-sk.csv";
+            
             using StreamReader reader = new StreamReader(path);
             
             while (!reader.EndOfStream)
             {
                 string? dataLine = reader.ReadLine();
-                if (dataLine != null)
-                {
-                    string[] fields = dataLine.Split(';');
-                    string[] ints = fields[0].Split('.', ' ');
 
-                    DayMonth dayMonth = new DayMonth(int.Parse(ints[0]), int.Parse(ints[2]));
-                    Add(dayMonth, fields[1..].Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray());
-                }
+                if (dataLine == null) 
+                    continue;
+                string[] fields = dataLine.Split(';');
+                string[] ints = fields[0].Split('.', ' ');
+
+                DayMonth dayMonth = new DayMonth(int.Parse(ints[0]), int.Parse(ints[2]));
+                Add(dayMonth, fields[1..].Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray());
+
+                if (fields[1].Equals("-")) 
+                    continue;
+                DayCount++;
+                NameCount += fields[1..].Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).Count();
             }
         }
 
