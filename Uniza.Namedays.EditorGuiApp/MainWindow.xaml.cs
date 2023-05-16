@@ -41,7 +41,8 @@ namespace Uniza.Namedays.EditorGuiApp
 
         private void WriteNames(object sender, EventArgs e)
         {
-            FilteredNames.Text = "";
+            FilteredNames.Items.Clear();
+
             int selectedMonth = MonthFilter.SelectedIndex + 1;
             string regexPattern = NameFilter.Text;
 
@@ -52,7 +53,7 @@ namespace Uniza.Namedays.EditorGuiApp
             {
                 if (!nameday.Name.Equals("-"))
                 {
-                    FilteredNames.Text += $"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name} \n";
+                    FilteredNames.Items.Add($"{nameday.DayMonth.Day}.{nameday.DayMonth.Month}. {nameday.Name} \n");
                 }
             }
         }

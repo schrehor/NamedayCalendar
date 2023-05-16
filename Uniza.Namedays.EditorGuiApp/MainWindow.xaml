@@ -52,7 +52,7 @@
                     </StackPanel>
 
                     <!-- Names TextBlock -->
-                    <TextBox Grid.Row="1" Grid.Column="0" Name="FilteredNames"/>
+                    <ListBox Grid.Row="1" Grid.Column="0" Name="FilteredNames"/>
                 </Grid>
             </GroupBox>
 
