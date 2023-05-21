@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Uniza.Namedays;
@@ -43,45 +36,33 @@ public static class SlovakMonthUtility
     private static Dictionary<string, SlovakMonth> _monthDict;
     private static Dictionary<SlovakMonth, string> _monthDictReverse;
 
+    /// <summary>
+    /// Inicializuje slovníky pre mapovanie slovenských názov mesiacov za pomoci atribútov.
+    /// </summary>
     static SlovakMonthUtility()
     {
         _monthDict = new Dictionary<string, SlovakMonth>();
         _monthDictReverse = new Dictionary<SlovakMonth, string>();
-
+    
         foreach (SlovakMonth month in Enum.GetValues(typeof(SlovakMonth)))
         {
             var info = typeof(SlovakMonth).GetMember(month.ToString());
             var attributes = info[0].GetCustomAttribute<DisplayAttribute>();
-            string slovakName = attributes.Name;
-
-            _monthDict[slovakName] = month;
-            _monthDictReverse[month] = slovakName;
+            if (attributes != null && attributes.Name != null)
+            {
+                string slovakName = attributes.Name;
+    
+                _monthDict[slovakName] = month;
+                _monthDictReverse[month] = slovakName;
+            }
         }
     }
 
-    public static SlovakMonth GetMonthEnum(string slovakName)
-    {
-        return _monthDict[slovakName];
-    }
-
+    /// <summary>
+    /// Vráti slovenský názov mesiaca pre danú hodnotu.
+    /// </summary>
     public static string GetSlovakName(SlovakMonth month)
     {
         return _monthDictReverse[month];
-    }
-
-    public static int GetMonthOrder(string slovakName)
-    {
-        SlovakMonth selectedMonth = _monthDict[slovakName];
-
-        var info = typeof(SlovakMonth).GetMember(selectedMonth.ToString());
-        var attributes = info[0].GetCustomAttribute<DisplayAttribute>();
-
-
-        if (attributes != null) 
-            return (int)attributes.GetOrder();
-        else
-        {
-            return 0;
-        }
     }
 }

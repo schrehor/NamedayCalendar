@@ -8,9 +8,6 @@ using Microsoft.Win32;
 
 namespace Uniza.Namedays.EditorGuiApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow
     {
         public NameDayCalendar NameDayCalendar { get; set; } = new NameDayCalendar();
@@ -170,6 +167,7 @@ namespace Uniza.Namedays.EditorGuiApp
         {
             MonthFilter.SelectedIndex = -1;
             NameFilter.Text = "";
+            DisableButtons();
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

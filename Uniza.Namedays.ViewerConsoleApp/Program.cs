@@ -9,12 +9,14 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         static void Main(string[] args)
         {
+            Program program = new Program();
+
             if (args.Length > 0)
             {
                 string csvFilePath = args[0];
+                program.NDCalendar?.Load(csvFilePath);
             }
 
-            Program program = new Program();
             
             while (true)
             {
@@ -62,47 +64,13 @@ namespace Uniza.Namedays.ViewerConsoleApp
 
         private NameDayCalendar? LoadCalendar()
         {
-            string? path = "";
-
-            // do
-            // {
-            //     Console.WriteLine("Zadajte cestu k súboru: ");
-            //     path = Console.ReadLine();
-            //
-            //     if (path == "")
-            //     {
-            //         return null;
-            //     }
-            //
-            //     if (!File.Exists(path))
-            //     {
-            //         Console.WriteLine("Zadaná cesta nie je platná.");
-            //     }
-            //     else if (Path.GetExtension(path).ToLower() != ".csv")
-            //     {
-            //         Console.WriteLine("Zadaný súbor nie je vo formáte CSV.");
-            //     }
-            //     else
-            //     {
-            //         break;
-            //     }
-            // } while (true);
+            Console.WriteLine("Zadajte cestu ku kalendáru: ");
+            var path = Console.ReadLine();
 
             NameDayCalendar? calendar = new NameDayCalendar();
-            calendar.Load(path);
-           
-            return calendar;
-        }
+            if (path != null) calendar.Load(path);
 
-        void PrintCalendar()
-        {
-            // NameDayCalendar na = new NameDayCalendar();
-            // na.Load();
-            //
-            // foreach (Nameday yaho in na)
-            // {
-            //     Console.WriteLine($"{yaho.DayMonth.Day}.{yaho.DayMonth.Month}. {yaho.Name}");
-            // }
+            return calendar;
         }
 
         void PrintMonthNamedays()
@@ -112,28 +80,29 @@ namespace Uniza.Namedays.ViewerConsoleApp
             var year = DateTime.Now.Year;
             do
             {
-                NDCalendar.Where(m => m.DayMonth.Month == month)
-                    .GroupBy(d => d.DayMonth.Day)
-                    .ToList().ForEach(n =>
-                    {
-                        var day = n.First().DayMonth.ToDateTime(year);
-                        if (day == DateTime.Today)
+                if (NDCalendar != null)
+                    NDCalendar.Where(m => m.DayMonth.Month == month)
+                        .GroupBy(d => d.DayMonth.Day)
+                        .ToList().ForEach(n =>
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
+                            var day = n.First().DayMonth.ToDateTime(year);
+                            if (day == DateTime.Today)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            }
+                            else if (day.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
 
-                        var names = string.Join(", ", n.Select(x => x.Name));
+                            var names = string.Join(", ", n.Select(x => x.Name));
 
-                        Console.WriteLine($"{n.Key}. {names}");
-                    });
+                            Console.WriteLine($"{n.Key}. {names}");
+                        });
                 Console.WriteLine($"Šípka doľava/doprava - mesiac dozadu/dopredu");
                 Console.WriteLine($"Šípka dole/hore - rok dozadu/dopredu");
                 Console.WriteLine($"Klávesa Home alebo D - aktuálny deň");
